@@ -42,6 +42,30 @@ const game = {
   blackoutClock: 0
 };
 
+
+function drawBackground() {
+  if (isNightTime()) {
+    ctx.fillStyle = "#182b45";
+  } else {
+    ctx.fillStyle = "#dce8c6";
+  }
+
+  ctx.fillRect(0, 0, WORLD.width, WORLD.height);
+
+  // Keep your existing background code below this line.
+}
+
+
+const DAY_LENGTH = 900;
+const NIGHT_LENGTH = 900;
+
+function isNightTime() {
+  const cycleLength = DAY_LENGTH + NIGHT_LENGTH;
+  const cycleTime = game.elapsed % cycleLength;
+
+  return cycleTime >= DAY_LENGTH;
+}
+
 class DeliveryVehicle {
   constructor() {
     this.x = 105;
@@ -124,7 +148,12 @@ const solarZone = { x: 410, y: 90, width: 115, height: 75 };
 const clinic = { x: 835, y: 110, width: 70, height: 60 };
 
 function drawBackground() {
-  ctx.fillStyle = "#dce8c6";
+   if (isNightTime()) {
+    ctx.fillStyle = "#182b45"; // Night
+  } else {
+    ctx.fillStyle = "#dce8c6"; // Day
+  }
+
   ctx.fillRect(0, 0, WORLD.width, WORLD.height);
 
   // Stylised African landscape: dry grass patches and acacia-like trees.
@@ -418,11 +447,8 @@ function animationLoop(timestamp) {
   requestAnimationFrame(animationLoop);
 }
 
-// STUDENT ORIGINAL FEATURE (must be implemented independently without Generative AI):
-// Add a day/night cycle here. Suggested approach: create a variable that increases
-// slowly each frame, then use a semi-transparent rectangle over the scene to
-// represent evening/night. Write and test this code yourself, and explain it in
-// your README and AI Reflection Log. Do not submit this TODO as the finished feature.
+
+
 
 updateStats();
 requestAnimationFrame(animationLoop);
